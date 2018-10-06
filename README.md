@@ -32,3 +32,19 @@ a single lookahead token is LL(1).
 * The first L means “read the input from left to right.”
 * The second L means “descend into parse tree children from left to right.”
 * For complicated languages, we can use more lookahead yielding. LL(k) Recursive-Descent Parser
+
+#### ANTLR grammar:
+
+```
+stat       : returnstat // "return x+0;" or
+           | assign // "x=0;" or
+           | ifstat // "if x<0 then x=0;"
+           ;
+returnstat : 'return' expr ';' ; // single-quoted strings are tokens
+assign     : 'x' '=' expr ;
+ifstat     : 'if' expr 'then' stat ;
+expr       : 'x' '+' '0' // used by returnstat
+           | 'x' '<' '0' // used by if conditional
+           | '0' // used in assign
+           ;
+```
